@@ -3,19 +3,31 @@
 clc;
 clear;
 
+% set startNode and goal coordinate based on world coordinate
+startNode_coordinate_world = [-5.44 4.93];
+goal_coordinaet_world = [-0.01 -4.07];
+
 % NodeMap frame in world frame
 NodeMap_frame_in_world_frame = [-5.53 -5.06];
+
+% resultion of map
+resultion = 0.01;
+
+% set time_interval
+time_interval = 10;
 
 % the radius of turtlebot
 turtle_R = 18;          % radius = 18 cm
 
 %!!! Set up goal point; Change coordinate to differnt goal point
-goal.coordinate = [553 100];
+% goal.coordinate = [553 100];
+goal.coordinate = transfer_frame(goal_coordinaet_world, NodeMap_frame_in_world_frame, resultion);
 
 % set tolerance for goal
 tolerance = 50;         % a circle of 50 cm
 % !!! Set up start point; Change coordinate to different start point
-startNode.coordinate = [10 1000];
+% startNode.coordinate = [10 1000];
+startNode.coordinate = transfer_frame(startNode_coordinate_world, NodeMap_frame_in_world_frame, resultion);
 startNode.orient = -pi/2;
 startNode.parent = 0;
 startNode.trajectory = [];
@@ -25,11 +37,7 @@ startNode.fScore = startNode.gScore + heuristic_estimate(startNode, goal);
 startNode.actual_coord = startNode.coordinate;
 startNode.mode = [];
 
-% resultion of map
-resultion = 0.01;
 
-% set time_interval
-time_interval = 10;
 
 % intially draw graph
 draw_graph(startNode, goal, resultion, tolerance, NodeMap_frame_in_world_frame)
